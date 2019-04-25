@@ -1,3 +1,5 @@
-# leetcode_programs
+# 算法面试准备
 
-### 这是我在LeetCode上刷题写的python程序，用于自己日后参考及记录自己的进程
+### 文件说明
+Code:leetcode刷题代码
+Interview:面试机器学习相关准备
