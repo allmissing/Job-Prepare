@@ -1,0 +1,64 @@
+# 24.两两交换链表中的节点
+### 题目描述
+给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
+
+你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+
+示例：  
+    给定 1->2->3->4, 你应该返回 2->1->4->3.
+
+### 解法1：递归（http://39.96.217.32/blog/4）
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+        public ListNode swapPairs(ListNode head) {
+            if(head == null || head.next == null){
+                return head;
+            }
+            ListNode next = head.next;
+            head.next = swapPairs(next.next);
+            next.next = head;
+            return next;
+        }
+    }
+
+### 解法2：循环
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+        public ListNode swapPairs(ListNode head) {
+            if(head == null || head.next == null) return head;
+            ListNode node = head.next;
+            ListNode last = null;
+            while(head!=null){
+                if(head.next!=null){
+                    ListNode tempNode = head.next.next;
+                    head.next.next = head;
+                    if(last!=null) last.next = head.next;
+                    head.next = tempNode;
+                }
+                last = head;
+                head = head.next;
+            }
+            return node;
+        }
+    }
+
+##### 解法要点：
+1.异常输入：因为要求交换，所以至少要两个节点，除了正常的head为null异常输入以外，还有一个异常的只有head一个节点的输入；  
+2.链表循环只能顺序循环，不能逆序，所以循环中至少需要存储至少三个节点：
+  （1）当前的两个节点的前一个（后一个在过程中用临时变量来存储就行，这个变量的生命周期不会持续到下一次循环） 
+  （2）前面链表的最后一个结点：后面的两个节点也要调换顺序，所以连接在上一个时刻无法完成
+  （3）新链表的头结点，用于返回
