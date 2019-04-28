@@ -62,3 +62,54 @@
   （1）当前的两个节点的前一个（后一个在过程中用临时变量来存储就行，这个变量的生命周期不会持续到下一次循环） 
   （2）前面链表的最后一个结点：后面的两个节点也要调换顺序，所以连接在上一个时刻无法完成
   （3）新链表的头结点，用于返回
+ 
+ # 25.k个一组翻转链表
+### 题目描述
+给出一个链表，每 k 个节点一组进行翻转，并返回翻转后的链表。  
+
+k 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 k 的整数倍，那么将最后剩余节点保持原有顺序。  
+
+示例：  
+    给定这个链表：1->2->3->4->5  
+    当 k = 2 时，应当返回: 2->1->4->3->5  
+    当 k = 3 时，应当返回: 3->2->1->4->5  
+
+说明：  
+    你的算法只能使用常数的额外空间。    
+    你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。  
+    
+### 解法：递归
+        /**
+         * Definition for singly-linked list.
+         * public class ListNode {
+         *     int val;
+         *     ListNode next;
+         *     ListNode(int x) { val = x; }
+         * }
+         */
+        class Solution {
+            public ListNode reverseKGroup(ListNode head, int k) {
+                //停止条件
+                if(k<2) return head;
+                ListNode node = head;
+                for(int i=0;i<k-1;i++){
+                    if(node==null) return head;
+                    node = node.next;
+                }
+                if(node==null) return head;
+                //每次循环做什么
+                ListNode NextNode = head.next;
+                ListNode CurrentNode = head;
+                ListNode LastNode = head;
+                for(int i=0;i<k-1;i++){
+                    CurrentNode = NextNode;
+                    if(NextNode != null) NextNode = NextNode.next;
+                    CurrentNode.next = LastNode;
+                    LastNode = CurrentNode;
+                }
+                head.next = reverseKGroup(NextNode, k);
+
+                //返回什么
+                return node;
+            }
+        }
