@@ -1,0 +1,45 @@
+# 82.删除排序链表中的重复元素 II
+### 题目描述
+给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字。
+
+示例1：  
+    输入: 1->2->3->3->4->4->5  
+    输出: 1->2->5  
+
+示例1：  
+    输入: 1->1->1->2->3  
+    输出: 2->3  
+    
+### 解法：常规链表操作
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+        public ListNode deleteDuplicates(ListNode head) {
+            if(head == null || head.next==null) return head;
+            if(head.next.val==head.val){
+                while(head.next!=null && head.next.val==head.val) head=head.next;
+                return deleteDuplicates(head.next);
+            }
+            ListNode last = head;
+            ListNode node = head.next;
+            while(node != null){
+                if(node.next!=null && node.next.val == node.val){
+                    while(node.next!=null && node.next.val == node.val) node=node.next;
+                    last.next = node.next;
+                }else last = last.next;
+                node = node.next;
+            }
+            return head;
+        }
+    }
+
+##### 题目要点：
+1.异常输入：要考虑到头结点重复或多次重复的情况，该种情况下，变为递归问题；  
+
+ 
