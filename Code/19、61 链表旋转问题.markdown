@@ -1,0 +1,90 @@
+# 19.删除链表的倒数第N个节点
+### 题目描述
+给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+
+示例：  
+    给定一个链表: 1->2->3->4->5, 和 n = 2.  
+
+    当删除了倒数第二个节点后，链表变为 1->2->3->5.  
+
+### 解法：双指针
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+        public ListNode removeNthFromEnd(ListNode head, int n) {
+            if(head==null || n<1) return null;
+            ListNode temp = head;
+            ListNode pin = head;
+            for(int i=0;i<n;i++){
+                pin = pin.next;
+            }
+            if(pin==null) return head.next;
+            while(pin.next!=null){
+                pin = pin.next;
+                temp = temp.next;
+            }
+            temp.next = temp.next.next;
+            return head;
+        }
+    }
+ 
+# 61.旋转链表
+### 题目描述
+给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。  
+
+示例1：  
+    输入: 1->2->3->4->5->NULL, k = 2  
+    输出: 4->5->1->2->3->NULL  
+    解释:  
+    向右旋转 1 步: 5->1->2->3->4->NULL  
+    向右旋转 2 步: 4->5->1->2->3->NULL   
+
+示例2：  
+    输入: 0->1->2->NULL, k = 4  
+    输出: 2->0->1->NULL  
+    解释:  
+    向右旋转 1 步: 2->0->1->NULL  
+    向右旋转 2 步: 1->2->0->NULL  
+    向右旋转 3 步: 0->1->2->NULL  
+    向右旋转 4 步: 2->0->1->NULL  
+    
+### 解法：双指针
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+        public ListNode rotateRight(ListNode head, int k) {
+            if(head==null || k<1) return head;
+            ListNode temp = head;
+            ListNode pin = head;
+            for(int i=0;i<k;i++){
+                if(pin.next==null){
+                    pin = head;
+                    k = k%(i+1);
+                    i = -1;
+                }else pin = pin.next;
+            }
+            while(pin.next!=null){
+                pin = pin.next;
+                temp = temp.next;
+            }
+            pin.next = head;
+            head = temp.next;
+            temp.next = null;
+            return head;
+        }
+    }
+        
+##### 解法要点：
+异常输入：存在一种很容易忽略的异常输入，输入的k大于链表长度，此时也要一直旋转。当k很大时，如果一直模拟旋转过程，则程序会超时，因此应该用k来对链表长度求余，但因为链表长度未知，所以第一次循环不能省略。  
