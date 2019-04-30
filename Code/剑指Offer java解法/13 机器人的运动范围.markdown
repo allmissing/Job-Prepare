@@ -1,0 +1,40 @@
+# 13.机器人的运动范围
+
+    public class Solution {
+        public int movingCount(int threshold, int rows, int cols)
+        {
+            if(rows<1 || cols<1 || threshold<1) return 0;
+            boolean[][] visited = new boolean[rows][cols];
+            for(int i=0;i<rows;i++){
+                for(int j=0;j<cols;j++){
+                    visited[i][j] = false;
+                }
+            }
+            return moving(threshold,rows,cols,visited,0,0);
+        }
+
+        public int moving(int threshold,int rows,int cols, boolean[][] visited,int row,int col){
+            //停止条件
+            if(row<0 || row>=rows || col<0 || col>=cols || visited[row][col] || getDigitSum(row,col)>threshold) return 0;
+            //每一层该做什么
+            visited[row][col] = true;
+            //返回什么
+            return moving(threshold,rows,cols,visited,row-1,col)
+                + moving(threshold,rows,cols,visited,row+1,col)
+                + moving(threshold,rows,cols,visited,row,col-1)
+                + moving(threshold,rows,cols,visited,row,col+1)+1;
+        }
+
+        public int getDigitSum(int row,int col){
+            int sum = 0;
+            while(row>0){
+                sum+=row%10;
+                row/=10;
+            }
+            while(col>0){
+                sum+=col%10;
+                col/=10;
+            }
+            return sum;
+        }
+    }
