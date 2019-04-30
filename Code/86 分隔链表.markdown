@@ -1,0 +1,82 @@
+# 24.分隔链表
+### 题目描述
+给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于 x 的节点都在大于或等于 x 的节点之前。  
+
+你应当保留两个分区中每个节点的初始相对位置。  
+
+示例：  
+    输入: head = 1->4->3->2->5->2, x = 3  
+    输出: 1->2->2->4->3->5  
+
+### 题目分析
+##### 1.输入分析
+(1)head<x
+(2)head>x
+(3)head为null
+(4)链表中没有小于x的元素
+(5)链表中没有大于等于x的元素
+
+### 解法1：建立一个辅助链表
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+        public ListNode partition(ListNode head, int x) {
+            if(head == null) return head;
+            ListNode node = head;
+            ListNode newhead = head;
+
+            ListNode nodefore = newhead;
+            ListNode nodeback = head;
+            //寻找两个头结点
+            if(node.val<x){
+                while(node!=null && node.val<x){
+                    head = head.next;
+                    node = node.next;
+                    if(node!=null && node.val<x) nodefore = node;
+                }
+                nodeback = head;
+            }else{
+                while(node!=null && node.val>=x){
+                    newhead = newhead.next;
+                    node = node.next;
+                    if(node!=null && node.val>=x) nodeback = node;
+                }
+                nodefore = newhead;
+            }
+
+            //后面节点的分配
+            if(node != null) node = node.next;
+            else return head==null?newhead:head;
+
+            while(node!=null){
+                if(node.val<x){
+                    nodefore.next = node;
+                    nodefore = node;
+                    node = node.next;
+                }else{
+                    nodeback.next = node;
+                    nodeback = node;
+                    node = node.next;
+                }
+            }
+            nodeback.next = null;
+            nodefore.next = head;
+            return newhead;
+        }
+    }
+
+##### 算法思路：
+用原链表保存大于等于x的节点，新建一个链表保存小于x的节点，开始时现在原始链表中找出两个链表的头结点，之后的节点一个一个加在两个链表的末尾，最后合并链表。
+
+##### 易错点及算法效率：
+易错点：需要建立多个指针以辅助完成链表的转换，nodefore,nodeback应指在两个链表的当前位置，所以在寻找两个链表头结点的时候也要更新；  
+算法效率：算法效率不太高且程序较为臃肿，只遍历一遍链表，因此时间复杂度还算O(n)，但有很多冗余的判断，比如寻找根节点时更新nodefore和nodeback的判断和更新。
+
+
+ 
