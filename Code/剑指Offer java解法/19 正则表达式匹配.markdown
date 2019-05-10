@@ -1,0 +1,79 @@
+# 正则表达式匹配
+该题可用递归和动态规划两种方法来解，动态规划方法看上去代码很整洁，但逻辑很复杂，反而递归更好理解一些
+
+## 题目描述
+请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配。
+
+## 解决方案
+#### 方案1（动态规划https://leetcode-cn.com/problems/regular-expression-matching/comments/）：
+    public class Solution {
+        public boolean match(char[] str, char[] pattern)
+        {
+            //异常输入处理
+            if(str == null || pattern == null || (str.length != 0 && pattern.length == 0)) return false;
+            if(str.length == 0 && pattern.length == 0) return true;
+            //初始化动态规划表
+            //最外层的分类以pattern中的元素情况来划分，所以pattern长度为第一个轴
+            boolean[][] Match = new boolean[pattern.length+1][str.length+1];
+            Match[0][0] = true;
+            for(int i=1;i<=pattern.length;i++){ //i,j都应该从1开始计数，是避免反复判断i,j大于0
+                //pattern中的元素分四种情况，为正常字符，与str中的相同或不相同；为'.'；为'*'。
+                //当前为‘*’时，分为
+                //1.pattern上一个匹配，此时Match[i][j]取决于Match[i][j-1]，意思是‘*’和上一个str元素对应上就行，因为此时“*”可以表示1或n，所以有没有当前这个元素没区别，取决于是否和上一个元素对应上
+                //2.pattern上一个为‘.’,与1相同
+                //3.pattern上一个为‘*’,则取决于Match[i-2][j] 不用考虑这种情况
+                //4.上一个不匹配，‘*’应该表示0，此时取决于pattern[i-3]与str[j-1]是否匹配，即Match[i-2][j]，注意的是‘*’表示0，str的指针位置不应该变，pattern应该倒退
+                for(int j=0;j<=str.length;j++){ //j=0开始是为了考虑str为空的情况也会进入循环，但真正有意义的j还是从1开始，所以使用j索引str时要用j-1
+                   if(pattern[i-1] == '*'){
+                       Match[i][j] = Match[i-2][j] || (j>0 && Match[i][j-1] && (pattern[i-2]=='.' || pattern[i-2]==str[j-1]));
+                   }else{
+                       //1.pattern为'.'，此时Match[i][j]取决于Match[i-1][j-1]
+                       //2.匹配，与1相同
+                       Match[i][j] = j>0 && Match[i-1][j-1] && (pattern[i-1]==str[j-1] || pattern[i-1]=='.');
+                   }
+                }
+            }
+            return Match[pattern.length][str.length];
+        }
+    }
+#### 方案2（递归https://www.nowcoder.com/profile/320158/codeBookDetail?submissionId=1500198）：
+    public class Solution {
+    public boolean match(char[] str, char[] pattern)
+        {
+            return matchTwo(str,0,str.length,pattern,0,pattern.length);
+
+        }
+    private boolean matchTwo(char[] str, int i, int length1, char[] pattern,
+                int j, int length2) {
+            if(i==length1&&j==length2) {
+                return true;
+            }
+            if(i==length1&&j!=length2) {
+                while(j!=length2){
+                    if(pattern[j]!='*'&&(j+1>=length2||pattern[j+1]!='*')){
+                        return false;
+                    }
+                    j++;
+                }
+                return true;
+            }
+        if(i!=length1&&j==length2) {
+                return false;
+            }
+            if(j+1==length2){
+                if(str[i]==pattern[j]||pattern[j]=='.')
+                    return matchTwo(str, i+1, length1, pattern, j+1, length2);
+                else {
+                    return false;
+                }
+            }
+            if((str[i]==pattern[j]||pattern[j]=='.')&&pattern[j+1]!='*')
+                return matchTwo(str, i+1, length1, pattern, j+1, length2);
+            if((str[i]==pattern[j]||pattern[j]=='.')&&pattern[j+1]=='*')
+                return matchTwo(str, i, length1, pattern, j+2, length2)||matchTwo(str, i+1, length1, pattern, j, length2);
+            if(pattern[j+1]=='*')
+                return matchTwo(str, i, length1, pattern, j+2, length2);
+            return false;
+        }
+    }
+    
