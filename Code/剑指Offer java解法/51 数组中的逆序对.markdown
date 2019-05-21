@@ -1,0 +1,58 @@
+# 数组中的逆序对
+
+## 题目描述
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007  
+
+输入描述：  
+    题目保证输入的数组中没有的相同的数字  
+    数据范围：  
+      对于%50的数据,size<=10^4  
+      对于%75的数据,size<=10^5  
+      对于%100的数据,size<=2*10^5  
+
+示例：  
+    输入：1,2,3,4,5,6,7,0  
+    输出：7  
+
+## 解法（归并排序）
+    public class Solution {
+        public int InversePairs(int [] array) {
+            if(array.length<2) return 0;
+            return InversePairsCore(array, 0, array.length-1);
+        }
+        public int InversePairsCore(int [] array, int start, int end){
+            int count=0;
+            //停止递归的条件
+            if(start>=end) return count;
+            //每个子问题应该做什么
+            //递归处理自问题
+            int le = start+(end-start)/2;
+            count += InversePairsCore(array, start, le);
+            count += InversePairsCore(array, le+1, end);
+            //if(count>=1000000007) count %= 1000000007; //这里加不加并没有什么影响
+            //合并左右两个数组并排序统计逆序对
+            int pin = le;
+            int[] fuzhu = new int[end-start+1];
+            int fuzhupin = fuzhu.length-1;
+            while(le>=start && end>=pin+1){  //注意这里的条件是>=
+                if(array[le]>array[end]){
+                    count += end-pin;
+                    if(count>=1000000007) count %= 1000000007;  //这里多次重复累加，很容易溢出，所以得加
+                    fuzhu[fuzhupin--] = array[le--];
+                    //le--;
+                }else{
+                    fuzhu[fuzhupin--] = array[end--];
+                    //end--;
+                }
+            }
+            //注意这里因为主循环中是两个条件，所以一个条件不符合另一个就不会复制到辅助数组中
+            while(end>=pin+1) fuzhu[fuzhupin--] = array[end--];
+            while(le>=start) fuzhu[fuzhupin--] = array[le--];
+            //将辅助数组中排好序的元素放回原数组
+            for(int i=0;i<fuzhu.length;i++){
+                array[start++] = fuzhu[i];
+            }
+            //返回什么
+            return count%1000000007;
+        }
+    }
