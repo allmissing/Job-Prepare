@@ -2,7 +2,12 @@
 
 ## 要点
 1.假定样本每个特征与其它特征都不相关，即样本所包含的属性在判定其是否为某一类时的概率分布上是独立的。   
-2.朴素贝叶斯概率模型/分类器：$ p(C|F1,……,F_n) $
+2.朴素贝叶斯概率模型/分类器(是一个条件概率)：
+<a href="https://www.codecogs.com/eqnedit.php?latex=\textsc{p}(C|F_{1},...,F_{n})" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\textsc{p}(C|F_{1},...,F_{n})" title="\textsc{p}(C|F_{1},...,F_{n})" /></a>
+3.概率计算方法  
+
+        特征是离散变量：用频率估计概率  
+        特征是连续变量：假设这些连续数值服从高斯分布，
 
 ## 简要介绍
 朴素贝叶斯假定样本
