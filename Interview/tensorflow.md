@@ -1,9 +1,9 @@
 # Tensorflow
 
-### 请简要介绍下tensorflow的计算图
+### 1.请简要介绍下tensorflow的计算图
 tensorflow是一个通过计算图的形式来表述计算的编程系统，计算图也叫数据流图，可以吧计算图看做是一种有向图，Tensorflow中的每一个节点都是计算图上的一个Tensor，也就是张量，而节点之间的边描述了计算之间的依赖关系（定义时）和数学操作（运算时）。
 
-### tf.Variable()和tf.get_Variable()的区别
+### 2.tf.Variable()和tf.get_Variable()的区别
 参考：https://blog.csdn.net/timothytt/article/details/79789274  
 
 二者的本质区别在于，当出现name冲突时处理不同。  
