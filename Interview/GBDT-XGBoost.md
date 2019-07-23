@@ -6,3 +6,6 @@
 
 # GBDT做多分类
 https://blog.csdn.net/hai008007/article/details/79781839
+
+# lightgbm调参
+https://www.imooc.com/article/43784?block_id=tuijian_wz
