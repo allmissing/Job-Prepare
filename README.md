@@ -14,5 +14,13 @@ b.当文本时中文时，你上面的方案是否合适，如果假设中文是
 ### 写的超好的经验贴
 https://www.nowcoder.com/discuss/111385
 
-### 笔试注意事项
-1. 定义类的属性时用public就行，不必用static
+### java踩过的坑（笔试注意事项）
+1. 定义类的属性时用public就行，不必用static,在leetcode上用static定义的属性，调试后提交依然存在，会对提交造成干扰。
+
+2. Long的取值范围在Long类中有属性，用Long.MIN_VALUE和LONG.MAX_VALUE调用（数值范围为-9223372036854775808 - 9223372036854775807）
+
+3. Math.pow()方法输入可以为任意原生数据类型，但输出返回为double型，如果要计算long类型的幂函数，最好采用a\*a的形式计算，因为强制类型转换回来好像有失真，表现为输出不通过。
+
+以上2,3来着360笔试题（城市修建）：https://www.nowcoder.com/questionTerminal/c1fa9060fae2433085e1c21f5d7e94c6?f=discussion
+
+
