@@ -23,7 +23,7 @@ https://www.nowcoder.com/discuss/111385
 
 以上2,3来着360笔试题（城市修建）：https://www.nowcoder.com/questionTerminal/c1fa9060fae2433085e1c21f5d7e94c6?f=discussion
 
-4. HashMap对Value排序方法：  
+4. HashMap排序方法：  
 HashMap的元素是Map.Entry<>  
 Collections.sort不能直接对HashMap使用，需要用别的容器来存放HashMapde的Entry<>键值对，一下代码以键和值都为int型为例  
 HashMap变量：map
@@ -34,6 +34,13 @@ HashMap变量：map
         Collections.sort(list, new Comparator(Map.Entry<Integer,Integer> o1, Map.Entry<Integer,Integer> o2){
           @override
           比较实体
+          key的调用：o1.getKey()
+          value的调用：o1.getValue()
         })
 
-5. HashMap对键排序
+HashMap对键的另一种排序方法：直接对keySet()排序然后再在map里查值就行
+
+        Set keySet = map.keySet();
+        Collections.sort(keySet);
+
+        查值:for(int num:keySet) map.get(num);
