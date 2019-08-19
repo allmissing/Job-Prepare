@@ -26,12 +26,14 @@ https://www.nowcoder.com/discuss/111385
 4. HashMap对Value排序方法：  
 HashMap的元素是Map.Entry<>  
 Collections.sort不能直接对HashMap使用，需要用别的容器来存放HashMapde的Entry<>键值对，一下代码以键和值都为int型为例  
-HashMap变量：map  
+HashMap变量：map
 
-    List<Map.Entry<Integer,Integer>> list = new LinkedList<Map.Entry<Integer,Integer>>();
-    list.addAll(map.entrySet());
+        List<Map.Entry<Integer,Integer>> list = new LinkedList<Map.Entry<Integer,Integer>>();
+        list.addAll(map.entrySet());
 
-    Collections.sort(list, new Comparator(Map.Entry<Integer,Integer> o1, Map.Entry<Integer,Integer> o2){
-      @override
-      比较实体
-    })
+        Collections.sort(list, new Comparator(Map.Entry<Integer,Integer> o1, Map.Entry<Integer,Integer> o2){
+          @override
+          比较实体
+        })
+
+5. HashMap对键排序
