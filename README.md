@@ -38,7 +38,7 @@ HashMap变量：map
           value的调用：o1.getValue()
         })
 
-HashMap对键的另一种排序方法：直接对keySet()排序然后再在map里查值就行
+  HashMap对键的另一种排序方法：直接对keySet()排序然后再在map里查值就行
 
         Set keySet = map.keySet();
         Collections.sort(keySet);
