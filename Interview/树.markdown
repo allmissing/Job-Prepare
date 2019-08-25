@@ -1,2 +1,0 @@
-# 分类与回归树（classification and regression tree, CART）
-https://www.cnblogs.com/ooon/p/5647309.html
