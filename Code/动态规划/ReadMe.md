@@ -1,6 +1,7 @@
 # 动态规划
 
 ## 0-1背包问题（常考）
+特点：用约束来当一个轴
 
     public class BagDP {
         public static void main(String[] args) {
