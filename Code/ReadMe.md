@@ -54,3 +54,68 @@
             nums[j] = temp;
         }
     }
+
+## 改进快排
+
+      package Sort;
+
+      public class ImprovedQuickSort {
+          public static void main(String[] args) {
+              int[] a = new int[]{2,7,8,4,6,3,9,18,43,22,5,1,88,95,37,28,90,35,17,35,44,67};
+              ImprovedQuickSort qs = new ImprovedQuickSort();
+              qs.QS(a);
+              for(int i=0;i<a.length;i++)
+                  System.out.print(a[i]+" ");
+          }
+          public static void QS(int[] nums){
+              Qsort(nums,0,nums.length-1);
+          }
+
+          //改进4：尾递归缩减堆栈深度-》每次将low-high划分一半，处理左半边，慢慢逼近右端点
+          public static void Qsort(int[] nums, int low, int high){
+              int pivot;
+              if(high-low>7){
+                  while(low<high){
+                      pivot = Partition(nums,low,high);
+                      Qsort(nums,low,pivot-1);
+                      low = pivot+1;
+                  }
+              }else InsertSort(nums,high,low);
+          }
+
+          //改进1：三数取中
+          //改进2：提取出pivot，直接赋值替代交换
+          public static int Partition(int[] nums, int low, int high){
+              int m=(low+high)/2;
+              if(nums[low]>nums[high]) swap(nums,low,high);
+              if(nums[m]>nums[high]) swap(nums,m,high);
+              if(nums[low]<nums[m]) swap(nums,low,m);
+              int pivot = nums[low];
+              while(high>low){
+                  while(high>low && nums[high]>=pivot) high--;
+                  nums[low] = nums[high];
+                  while(high>low && nums[low]<=pivot) low++;
+                  nums[high] = nums[low];
+              }
+              nums[low] = pivot;
+              return low;
+          }
+
+          public static void swap(int[] nums, int i, int j){
+              int tem = nums[i];
+              nums[i] = nums[j];
+              nums[j] = tem;
+          }
+
+          public static void InsertSort(int[] nums, int high, int low){
+              int tem;
+              for(int i=low+1;i<=high;i++){
+                  if(nums[i]<nums[i-1]){
+                      tem = nums[i];
+                      int j;
+                      for(j=i-1;nums[j]>tem && j>=low;j--) nums[j+1] = nums[j];
+                      nums[j+1] = tem;
+                  }
+              }
+          }
+      }
