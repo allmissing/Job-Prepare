@@ -119,3 +119,72 @@
               }
           }
       }
+
+## 归并排序（书上写法）
+
+      public class MergingSort {
+          public static void main(String[] args) {
+              int[] a = new int[]{2,7,8,4,6,3,9,18,43,22,5,1,88,95,37,28,90,35,17,35,44,67};
+              MergingSort ms = new MergingSort();
+              ms.MS(a);
+              for(int i=0;i<a.length;i++)
+                  System.out.print(a[i]+" ");
+          }
+          public void MS(int[] a){
+              this.MSorting(a,a,0,a.length-1); //这里必须是两个a
+          }
+          public void MSorting(int[] SR, int [] TR, int s, int t){
+              int m;
+              int[] TR2 = new int[SR.length];
+              if(t<=s) TR[t] = SR[t];
+              else{
+                  m=(s+t)/2;
+                  this.MSorting(SR,TR2,s,m);
+                  this.MSorting(SR,TR2,m+1,t);
+                  this.Merging(TR,TR2,s,m,t);
+              }
+          }
+          public void Merging(int[] SR,int[] TR,int s,int m,int t){
+              int i=s,j=m+1;
+              while(m>=i && t>=j){
+                  if(TR[i]>TR[j]) SR[s++] = TR[j++];
+                  else SR[s++] = TR[i++];
+              }
+              while(m>=i) SR[s++] = TR[i++];
+              while(t>=j) SR[s++] = TR[j++];
+          }
+      }
+
+## 归并排序（好理解的写法）
+
+      // 参考：https://blog.csdn.net/qq_36442947/article/details/81612870
+      public class MergingSort2 {
+          public static void main(String[] args) {
+              int[] a = new int[]{2,7,8,4,6,3,9,18,43,22,5,1,88,95,37,28,90,35,17,35,44,67};
+              MergingSort2 ms = new MergingSort2();
+              ms.MSorting(a,0,a.length-1);
+              for(int i=0;i<a.length;i++)
+                  System.out.print(a[i]+" ");
+          }
+
+          public void MSorting(int[] SR, int s, int t){
+              if(t>s){
+                  int m=(s+t)/2;
+                  this.MSorting(SR,s,m);
+                  this.MSorting(SR,m+1,t);
+                  this.Merging(SR,s,m,t);
+              }
+          }
+          public void Merging(int[] SR,int s,int m,int t){
+              int[] TR = new int[SR.length];
+              for(int i=s;i<=t;i++) TR[i] = SR[i];
+
+              int i=s,j=m+1;
+              while(m>=i && t>=j){
+                  if(TR[i]>TR[j]) SR[s++] = TR[j++];
+                  else SR[s++] = TR[i++];
+              }
+              while(m>=i) SR[s++] = TR[i++];
+              while(t>=j) SR[s++] = TR[j++];
+          }
+      }
