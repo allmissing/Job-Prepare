@@ -40,3 +40,27 @@
             return dp[NofThing][Constrain];
         }
     }
+
+## 最大值最小化类动态规划模板
+#### 状态转移方程
+f[i][j] = min{max{f[i][1]-f[k][1],f[k][j-1]}},其中max：1<=k<=i，在k范围内，两部分取最大最小值  
+f[i][j]标识前i个数据分成j段的最大最小值  
+f[i][1]-f[k][1]表示k~i的值  
+f[k][j-1]表示前k个数据分成j-1段的最大最小值  
+#### 代码实现
+
+        static int schedule(int m,int[] array) {
+            int min,temp,k;
+            int[][] dp = new int[array.length+1][m+1];
+            for(int i=1;i<=array.length;i++) dp[i][1] = dp[i-1][1]+array[i-1];
+            for(int i=2;i<=array.length;i++){
+                for(int j=2;j<=m;j++){
+                    for(k=1,temp=Integer.MAX_VALUE;k<i;k++){
+                        min = Math.max(dp[i][1]-dp[k][1],dp[k][j-1]);
+                        temp = min<temp?min:temp;
+                    }
+                    dp[i][j] = temp;
+                }
+            }
+            return dp[array.length][m];
+        }
