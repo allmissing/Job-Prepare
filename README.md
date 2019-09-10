@@ -44,3 +44,11 @@ HashMap变量：map
         Collections.sort(keySet);
 
         查值:for(int num:keySet) map.get(num);
+
+5. float保留特定位数小数打印模板
+需要转换的数num,以保留3位为例
+
+        import java.text.DecimalFormat;
+        num = ((float)Math.round(num*1000)/1000);
+        DecimalFormat df = new DecimalFormat("0.000");     注：这里0表示特定输出，是0就会打印0，#在为0时不打印，只前后可忽略的0
+        String res = df.format(num);
